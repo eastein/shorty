@@ -32,5 +32,9 @@ class Shorty(irclib.SimpleIRCClient) :
 			self.connection.privmsg(chan, msg)
 
 if __name__ == '__main__' :
-	s = Shorty(sys.argv[1], sys.argv[2], sys.argv[3])
+	try :
+		s = Shorty(sys.argv[1], sys.argv[2], sys.argv[3])
+	except IndexError :
+		print 'usage: python shorty.py server nick channel\n\n\texample:\n\tpython shorty.py irc.example.com shortbot \#hackers\n\n(Escape of # character is needed in most shells.)'
+		sys.exit(1)
 	s.start();

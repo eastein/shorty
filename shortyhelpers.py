@@ -20,8 +20,7 @@ def shorten(url, thresh=None) :
 		if len(url) < thresh :
 			return None
 
-	# TODO check url for evil characters
-	sapiurl = 'http://tinyurl.com/api-create.php?url=%s' % url
+	sapiurl = 'http://tinyurl.com/api-create.php?url=%s' % urllib2.quote(url)
 
 	try :
 		stream = urllib2.urlopen(sapiurl)

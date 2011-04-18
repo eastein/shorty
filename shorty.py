@@ -19,7 +19,7 @@ class Shorty(irclib.SimpleIRCClient) :
 		txt = e.arguments()[0]
 		n = 0
 		msg = "%s's link%s:" % (nick, '%s')
-		for short in shortyhelpers.short(txt, 30) :
+		for short in shortyhelpers.short(txt, 40) :
 			msg += " " + short
 			n += 1
 

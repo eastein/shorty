@@ -5,7 +5,8 @@ import irclib
 import shortyhelpers
 
 class Shorty(irclib.SimpleIRCClient) :
-	def __init__(self, server, nick, chan) :
+	def __init__(self, server, nick, chan, len=40) :
+		self.len = len
 		irclib.SimpleIRCClient.__init__(self)
 		self.connect(server, 6667, nick)
 		self.connection.join(chan)
@@ -19,7 +20,7 @@ class Shorty(irclib.SimpleIRCClient) :
 		txt = e.arguments()[0]
 		n = 0
 		msg = "%s's link%s:" % (nick, '%s')
-		for short in shortyhelpers.short(txt, 40) :
+		for short in shortyhelpers.short(txt, self.len) :
 			msg += " " + short
 			n += 1
 
@@ -33,8 +34,11 @@ class Shorty(irclib.SimpleIRCClient) :
 
 if __name__ == '__main__' :
 	try :
-		s = Shorty(sys.argv[1], sys.argv[2], sys.argv[3])
+		try :
+			s = Shorty(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]))
+		except IndexError :
+			s = Shorty(sys.argv[1], sys.argv[2], sys.argv[3])
 	except IndexError :
-		print 'usage: python shorty.py server nick channel\n\n\texample:\n\tpython shorty.py irc.example.com shortbot \#hackers\n\n(Escape of # character is needed in most shells.)'
+		print 'usage: python shorty.py server nick channel [minlen]\n\n\texample:\n\tpython shorty.py irc.example.com shortbot \#hackers 40\n\n(Escape of # character is needed in most shells.)'
 		sys.exit(1)
 	s.start();
